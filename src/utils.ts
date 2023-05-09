@@ -1,6 +1,19 @@
 import truncateEthAddress from "truncate-eth-address";
 
-export function convertData(response, key) {
+type ResponseObject = Array<{
+  address: string;
+  data: Array<{
+    timestamp: string;
+    [key: string]: string;
+  }>;
+}>;
+
+interface ConvertedDataObject {
+  [key: string]: number | undefined;
+  timestamp?: number;
+}
+
+export function convertData(response: ResponseObject, key: string) {
   // Create a Set of unique addresses
   let uniqueAddresses = new Set();
   response.forEach((obj) => {
@@ -13,13 +26,13 @@ export function convertData(response, key) {
 
   response.forEach((obj) => {
     let address = truncateEthAddress(obj.address);
-    let lastValue = null;
+    let lastValue: number | null = null;
 
     obj.data.forEach((dataObj) => {
-      let timestamp = dataObj.timestamp;
+      let timestamp: string = dataObj.timestamp;
       let value = parseFloat(dataObj[key]);
 
-      let date = timestamp * 1000;
+      let date = parseInt(timestamp) * 1000;
 
       if (!groupedData.has(date)) {
         groupedData.set(date, new Map());
@@ -36,20 +49,20 @@ export function convertData(response, key) {
     });
   });
 
-  let convertedData = [];
+  let convertedData: ConvertedDataObject[] = [];
 
   // Create an array of all unique timestamps in ascending order
   let allTimestamps = Array.from(groupedData.keys()).sort((a, b) => a - b);
 
   // Populate convertedData with all timestamps and addresses
   allTimestamps.forEach((timestamp, index) => {
-    let dataObj = { timestamp };
+    let dataObj: ConvertedDataObject = { timestamp };
     uniqueAddresses.forEach((address) => {
       let dataMap = groupedData.get(timestamp);
       let value = dataMap.get(address);
 
-      if (value !== undefined) {
-        dataObj[address] = value;
+      if (value !== undefined && address) {
+        dataObj[address as string] = value;
       } else {
         let previousValue = null;
         for (let i = index - 1; i >= 0; i--) {
@@ -61,7 +74,7 @@ export function convertData(response, key) {
             break;
           }
         }
-        dataObj[address] = previousValue;
+        dataObj[address as string] = previousValue;
       }
     });
     convertedData.push(dataObj);
@@ -70,38 +83,38 @@ export function convertData(response, key) {
   return convertedData;
 }
 
-export function timeFormat(interval) {
+export function timeFormat(interval: number) {
   switch (interval) {
     case 900:
     case 3600:
     case 14400:
     case 86400:
     case 172800:
-      return (t) =>
+      return (t: number) =>
         new Intl.DateTimeFormat("en-US", {
           hour: "numeric",
           minute: "numeric",
           hour12: false,
         }).format(t);
     case 604800:
-      return (t) =>
+      return (t: number) =>
         new Intl.DateTimeFormat("en-US", {
           weekday: "short",
           day: "numeric",
         }).format(t);
     case 2630000:
-      return (t) =>
+      return (t: number) =>
         new Intl.DateTimeFormat("en-US", {
           month: "short",
           day: "numeric",
         }).format(t);
     case 7890000:
-      return (t) =>
+      return (t: number) =>
         new Intl.DateTimeFormat("en-US", {
           month: "short",
         }).format(t);
     default:
-      return (t) =>
+      return (t: number) =>
         new Intl.DateTimeFormat("en-US", {
           hour: "numeric",
           minute: "numeric",
@@ -110,7 +123,7 @@ export function timeFormat(interval) {
   }
 }
 
-export function getFormattedTime(interval) {
+export function getFormattedTime(interval: number) {
   switch (interval) {
     case 900:
     case 3600:
@@ -144,7 +157,7 @@ export function getCurrentEpoch() {
   return epoch;
 }
 
-export function formatTable(data) {
+export function formatTable(data: ConvertedDataObject[]) {
   const lastData = data ? data[data.length - 1] : null;
 
   if (lastData) {
