@@ -5,6 +5,7 @@ import { AppDispatch } from "./redux/store";
 
 import Header from "./components/header";
 import TopDB from "./components/top-db";
+import BottomDB from "./components/bottom-db";
 
 function App() {
   const [market, setMarket] = useState(1);
@@ -24,6 +25,7 @@ function App() {
         setInterval={setInterval}
       />
       <TopDB />
+      <BottomDB interval={interval} />
     </div>
   );
 }
