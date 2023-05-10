@@ -65,7 +65,6 @@ const makerSlice = createSlice({
       })
       .addCase(fetchData.fulfilled, (state, action) => {
         state.data = action.payload;
-        console.log(action.payload);
         state.loading = false;
         state.error = false;
       })
