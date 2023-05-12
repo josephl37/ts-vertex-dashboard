@@ -1,13 +1,4 @@
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
-import { timeFormat, getFormattedTime } from "../../utils";
-import numeral from "numeral";
+import ReactECharts from "echarts-for-react";
 
 interface ConvertedDataObject {
   [key: string]: number | undefined;
@@ -15,110 +6,92 @@ interface ConvertedDataObject {
 }
 
 type HeaderProps = {
-  interval: number;
-  colors: string[];
   data: ConvertedDataObject[] | null;
 };
 
-function ERChart({ interval, colors, data }: HeaderProps) {
-  const keys = data
-    ? Object.keys(data[0]).filter((k) => k !== "timestamp")
-    : null;
-
+function ERChart({ data }: HeaderProps) {
   if (data === null) {
     return <div>Data is unavailable</div>;
-  } else {
-    return (
-      <div className="h-96 w-full">
-        <ResponsiveContainer>
-          <AreaChart
-            data={data}
-            margin={{
-              top: 20,
-              right: 20,
-              left: 0,
-              bottom: 20,
-            }}
-          >
-            <XAxis
-              dataKey="timestamp"
-              scale="auto"
-              type="number"
-              domain={["dataMin", "dataMax"]}
-              tickFormatter={timeFormat(interval)}
-            />
-            <YAxis tickFormatter={(c) => numeral(c).format("0.a")} />
-            <Tooltip
-              content={<CustomTooltip interval={interval} colors={colors} />}
-            />
-            {keys?.map((key, index) => (
-              <Area
-                key={key}
-                dataKey={key}
-                stackId="1"
-                stroke={colors[index % colors.length]}
-                fill={colors[index % colors.length]}
-              />
-            ))}
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-    );
   }
-}
+  console.log(data);
+  // Transform the data source into a format that can be used by ECharts
+  const seriesData = Object.keys(data[0])
+    .filter((key) => key !== "timestamp")
+    .map((key) => ({
+      name: key,
+      type: "line",
+      stack: "Total",
+      showSymbol: false,
+      areaStyle: {},
+      emphasis: {
+        focus: "series",
+      },
+      data: data.map((item) => item[key]),
+    }));
 
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: any[];
-  label?: number;
-  interval: number;
-  colors: string[];
-}
+  // Define the timestamps array
+  const timestamps = data.map((item) => new Date(item.timestamp as number));
 
-function CustomTooltip({
-  active,
-  payload,
-  label,
-  interval,
-  colors,
-}: CustomTooltipProps) {
-  if (active) {
-    const timeFormat = getFormattedTime(interval);
+  // Define the ECharts option object
+  const option = {
+    tooltip: {
+      trigger: "axis",
+      backgroundColor: "#2A2A2F",
+      borderWidth: 0,
+      textStyle: {
+        color: "#A2A2A6",
+      },
+    },
+    legend: {
+      type: "scroll",
+      pageIconColor: "#A2A2A6",
+      pageIconInactiveColor: "#323237",
+      pageTextStyle: {
+        color: "#A2A2A6",
+      },
+      data: Object.keys(data[0]).filter((key) => key !== "timestamp"),
+      icon: "circle",
+      bottom: "5%",
+      textStyle: {
+        color: "#A2A2A6",
+      },
+    },
+    grid: {
+      left: "2%",
+      right: "4%",
+      bottom: "15%",
+      top: "4%",
+      containLabel: true,
+    },
+    xAxis: {
+      type: "time",
+      data: null,
+    },
+    yAxis: {
+      type: "value",
+      splitLine: {
+        lineStyle: {
+          color: "#323237",
+        },
+      },
+    },
+    series: seriesData.map((series) => ({
+      ...series,
+      data: series.data.map((value, index) => ({
+        value: [timestamps[index], value],
+      })),
+    })),
+  };
 
-    return (
-      <div
-        className="bg-tooltip-gray p-2 text-gray-1"
-        style={{
-          boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.5)",
-        }}
-      >
-        <div className="font-bold text-white mb-1">
-          {timeFormat.format(label)}
-        </div>
-        {payload && payload.length > 0 ? (
-          payload
-            .map((entry, index) => ({
-              entry,
-              color: colors[index % colors.length],
-            }))
-            .reverse()
-            .map(({ entry, color }, index) => (
-              <div key={`item-${index}`} className="flex">
-                <span
-                  className="w-4 h-4 mr-4 mt-1"
-                  style={{ backgroundColor: color }}
-                ></span>
-                {entry.name}: {numeral(entry.value).format("0.00a")}
-              </div>
-            ))
-        ) : (
-          <div>No data available.</div>
-        )}
-      </div>
-    );
-  }
-
-  return null;
+  return (
+    <div className="h-96">
+      <ReactECharts
+        option={option}
+        style={{ height: "100%" }}
+        className="px-2"
+      />
+    </div>
+  );
 }
 
 export default ERChart;

@@ -25,7 +25,7 @@ function App() {
         setInterval={setInterval}
       />
       <TopDB />
-      <BottomDB interval={interval} />
+      <BottomDB />
     </div>
   );
 }
