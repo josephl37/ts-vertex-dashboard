@@ -2,6 +2,7 @@ import { Tooltip } from "react-tooltip";
 import ExpectedRewards from "../data/expectedRewards/index";
 import RewardShare from "../data/rewardShare";
 import MakerFee from "../data/makerFee";
+import MarketUptime from "../data/marketUptime";
 
 function BottomDB() {
   return (
@@ -9,6 +10,7 @@ function BottomDB() {
       <ExpectedRewards />
       <RewardShare />
       <MakerFee />
+      <MarketUptime />
       <Tooltip
         id="chart-tooltip"
         style={{
