@@ -1,4 +1,5 @@
 import ReactECharts from "echarts-for-react";
+import numeral from "numeral";
 
 interface ConvertedDataObject {
   [key: string]: number | undefined;
@@ -13,7 +14,7 @@ function ERChart({ data }: HeaderProps) {
   if (data === null) {
     return <div>Data is unavailable</div>;
   }
-  console.log(data);
+
   // Transform the data source into a format that can be used by ECharts
   const seriesData = Object.keys(data[0])
     .filter((key) => key !== "timestamp")
@@ -25,6 +26,10 @@ function ERChart({ data }: HeaderProps) {
       areaStyle: {},
       emphasis: {
         focus: "series",
+      },
+      tooltip: {
+        valueFormatter: (value: number) =>
+          numeral(value).format("0.00a").toUpperCase(),
       },
       data: data.map((item) => item[key]),
     }));
@@ -51,7 +56,7 @@ function ERChart({ data }: HeaderProps) {
       },
       data: Object.keys(data[0]).filter((key) => key !== "timestamp"),
       icon: "circle",
-      bottom: "5%",
+      bottom: "2%",
       textStyle: {
         color: "#A2A2A6",
       },
@@ -59,7 +64,7 @@ function ERChart({ data }: HeaderProps) {
     grid: {
       left: "2%",
       right: "4%",
-      bottom: "15%",
+      bottom: "12%",
       top: "4%",
       containLabel: true,
     },
@@ -72,6 +77,11 @@ function ERChart({ data }: HeaderProps) {
       splitLine: {
         lineStyle: {
           color: "#323237",
+        },
+      },
+      axisLabel: {
+        formatter: (value: number) => {
+          return numeral(value).format("0.0a").toUpperCase();
         },
       },
     },
