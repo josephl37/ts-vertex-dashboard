@@ -4,6 +4,7 @@ import RewardShare from "../data/rewardShare";
 import MakerFee from "../data/makerFee";
 import MarketUptime from "../data/marketUptime";
 import QScore from "../data/qScore";
+import SumQScore from "../data/sumQScore";
 
 function BottomDB() {
   return (
@@ -13,6 +14,7 @@ function BottomDB() {
       <MakerFee />
       <MarketUptime />
       <QScore />
+      <SumQScore />
       <Tooltip
         id="chart-tooltip"
         style={{
