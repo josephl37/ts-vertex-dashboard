@@ -6,6 +6,7 @@ import { AppDispatch } from "./redux/store";
 import Header from "./components/header";
 import TopDB from "./components/top-db";
 import BottomDB from "./components/bottom-db";
+import Signature from "./components/signature";
 
 function App() {
   const [market, setMarket] = useState(1);
@@ -26,6 +27,7 @@ function App() {
       />
       <TopDB />
       <BottomDB />
+      <Signature />
     </div>
   );
 }
