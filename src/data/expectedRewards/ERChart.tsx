@@ -1,16 +1,13 @@
 import ReactECharts from "echarts-for-react";
 import numeral from "numeral";
 
-interface ConvertedDataObject {
-  [key: string]: number | undefined;
-  timestamp?: number;
-}
+import { useAppSelector } from "../../redux/store";
+import { convertData } from "../../utils";
 
-type HeaderProps = {
-  data: ConvertedDataObject[] | null;
-};
+function ERChart() {
+  const response = useAppSelector((state) => state.data.data?.makers);
+  const data = response ? convertData(response, "expected_maker_reward") : null;
 
-function ERChart({ data }: HeaderProps) {
   if (data === null) {
     return <div>Data is unavailable</div>;
   }
@@ -27,10 +24,6 @@ function ERChart({ data }: HeaderProps) {
       emphasis: {
         focus: "series",
       },
-      tooltip: {
-        valueFormatter: (value: number) =>
-          numeral(value).format("0.[00]a").toUpperCase(),
-      },
       data: data.map((item) => item[key]),
     }));
 
@@ -45,6 +38,32 @@ function ERChart({ data }: HeaderProps) {
       borderWidth: 0,
       textStyle: {
         color: "#A2A2A6",
+      },
+      formatter: (params: any) => {
+        const date = new Date(params[0].data.value[0]);
+        const formattedDate = `${date.toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        })} ${date.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })}`;
+        const lines = params.map(
+          (param: any) =>
+            `<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:${
+              param.color
+            };"></span>${
+              param.seriesName
+            }:  <span style="float:right;padding-left:14px;font-weight:bold;">${numeral(
+              param.value[1]
+            )
+              .format("0.[00]a")
+              .toUpperCase()}</span>`
+        );
+        return `<div><span style="display:inline-block;color:white;font-weight:bold;margin-bottom:4px;">${formattedDate}</span><br>${lines.join(
+          "<br>"
+        )}</div>`;
       },
     },
     legend: {
