@@ -29,7 +29,7 @@ function ERChart({ data }: HeaderProps) {
       },
       tooltip: {
         valueFormatter: (value: number) =>
-          numeral(value).format("0.00a").toUpperCase(),
+          numeral(value).format("0.[00]a").toUpperCase(),
       },
       data: data.map((item) => item[key]),
     }));
@@ -51,6 +51,7 @@ function ERChart({ data }: HeaderProps) {
       type: "scroll",
       pageIconColor: "#A2A2A6",
       pageIconInactiveColor: "#323237",
+      inactiveColor: "#A2A2A6",
       pageTextStyle: {
         color: "#A2A2A6",
       },
@@ -63,9 +64,9 @@ function ERChart({ data }: HeaderProps) {
     },
     grid: {
       left: "2%",
-      right: "4%",
+      right: "2%",
       bottom: "12%",
-      top: "4%",
+      top: "6%",
       containLabel: true,
     },
     xAxis: {
@@ -81,7 +82,7 @@ function ERChart({ data }: HeaderProps) {
       },
       axisLabel: {
         formatter: (value: number) => {
-          return numeral(value).format("0.0a").toUpperCase();
+          return numeral(value).format("0.[0]a").toUpperCase();
         },
       },
     },
