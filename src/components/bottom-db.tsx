@@ -1,12 +1,14 @@
 import { Tooltip } from "react-tooltip";
 import ExpectedRewards from "../data/expectedRewards/index";
 import RewardShare from "../data/rewardShare";
+import MakerFee from "../data/makerFee";
 
 function BottomDB() {
   return (
     <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mt-4">
       <ExpectedRewards />
       <RewardShare />
+      <MakerFee />
       <Tooltip
         id="chart-tooltip"
         style={{
