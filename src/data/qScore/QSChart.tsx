@@ -8,8 +8,6 @@ function QSChart() {
   const response = useAppSelector((state) => state.data.data?.makers);
   const data = response ? convertData(response, "q_score") : null;
 
-  console.log(data);
-
   if (data === null) {
     return <div>Data is unavailable</div>;
   }
