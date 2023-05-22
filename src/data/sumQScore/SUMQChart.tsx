@@ -12,6 +12,9 @@ function QSChart() {
     return <div>Data is unavailable</div>;
   }
 
+  // Define the offset value for zero data points
+  const offset = 0.000001;
+
   const seriesData = Object.keys(data[0])
     .filter((key) => key !== "timestamp")
     .map((key) => ({
@@ -21,7 +24,10 @@ function QSChart() {
       emphasis: {
         focus: "series",
       },
-      data: data.map((item) => item[key]),
+      data: data.map((item) => {
+        const value = item[key];
+        return value === 0 ? offset : value;
+      }),
     }));
 
   const timestamps = data.map((item) => new Date(item.timestamp as number));

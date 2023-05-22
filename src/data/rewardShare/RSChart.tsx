@@ -12,6 +12,9 @@ function RSChart() {
     return <div>Data is unavailable</div>;
   }
 
+  // Define the threshold value for conversion
+  const threshold = 0.000001;
+
   const seriesData = Object.keys(data[0])
     .filter((key) => key !== "timestamp")
     .map((key) => ({
@@ -23,7 +26,10 @@ function RSChart() {
       emphasis: {
         focus: "series",
       },
-      data: data.map((item) => item[key]),
+      data: data.map((item) => {
+        const value = item[key];
+        return (value as number) < threshold ? 0 : value;
+      }),
     }));
 
   const timestamps = data.map((item) => new Date(item.timestamp as number));

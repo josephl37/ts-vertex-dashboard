@@ -12,6 +12,9 @@ function ERChart() {
     return <div>Data is unavailable</div>;
   }
 
+  // Define the threshold value for conversion
+  const threshold = 0.000001;
+
   // Transform the data source into a format that can be used by ECharts
   const seriesData = Object.keys(data[0])
     .filter((key) => key !== "timestamp")
@@ -24,7 +27,10 @@ function ERChart() {
       emphasis: {
         focus: "series",
       },
-      data: data.map((item) => item[key]),
+      data: data.map((item) => {
+        const value = item[key];
+        return (value as number) < threshold ? 0 : value;
+      }),
     }));
 
   // Define the timestamps array
