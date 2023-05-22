@@ -13,7 +13,7 @@ function QSChart() {
   }
 
   // Define the offset value for zero data points
-  const offset = 0.000001;
+  const offset = null;
 
   const seriesData = Object.keys(data[0])
     .filter((key) => key !== "timestamp")
