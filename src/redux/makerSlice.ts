@@ -1,6 +1,6 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-import { getCurrentEpoch } from "../utils";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { getCurrentEpoch } from '../utils';
 
 interface MakerState {
   data: {
@@ -28,11 +28,22 @@ const initialState: MakerState = {
   error: false,
 };
 
-const base = "https://prod.vertexprotocol-backend.com";
-
 export const fetchData = createAsyncThunk(
-  "maker/fetchData",
-  async ({ market, interval }: { market: number; interval: number }) => {
+  'maker/fetchData',
+  async ({
+    market,
+    interval,
+    network,
+  }: {
+    market: number;
+    interval: number;
+    network: string;
+  }) => {
+    const main = 'https://prod.vertexprotocol-backend.com';
+    const test = 'https://test.vertexprotocol-backend.com';
+
+    const base = network === 'main' ? main : test;
+
     const epoch = getCurrentEpoch();
     const response = await axios.post(
       `${base}/indexer`,
@@ -45,16 +56,16 @@ export const fetchData = createAsyncThunk(
       },
       {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      }
+      },
     );
     return response.data;
-  }
+  },
 );
 
 const makerSlice = createSlice({
-  name: "maker",
+  name: 'maker',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
