@@ -66,6 +66,7 @@ function Header({
             <option value="2">BTC-Perp</option>
             <option value="3">ETH-Spot</option>
             <option value="4">ETH-Perp</option>
+            <option value="6">ARB-Perp</option>
           </select>
         </div>
         <div>

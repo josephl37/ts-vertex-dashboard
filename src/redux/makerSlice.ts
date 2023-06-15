@@ -28,6 +28,9 @@ const initialState: MakerState = {
   error: false,
 };
 
+const main = 'https://prod.vertexprotocol-backend.com';
+const test = 'https://test.vertexprotocol-backend.com';
+
 export const fetchData = createAsyncThunk(
   'maker/fetchData',
   async ({
@@ -39,9 +42,6 @@ export const fetchData = createAsyncThunk(
     interval: number;
     network: string;
   }) => {
-    const main = 'https://prod.vertexprotocol-backend.com';
-    const test = 'https://test.vertexprotocol-backend.com';
-
     const base = network === 'main' ? main : test;
 
     const epoch = getCurrentEpoch();
