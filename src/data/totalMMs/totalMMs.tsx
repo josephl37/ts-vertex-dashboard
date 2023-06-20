@@ -1,6 +1,6 @@
-import infoSvg from "../../public/information-circle.svg";
-import { useAppSelector } from "../../redux/store";
-import Spinner from "../../components/spinner";
+import infoSvg from '../../public/information-circle.svg';
+import { useAppSelector } from '../../redux/store';
+import Spinner from '../../components/spinner';
 
 function TotalMMs() {
   const data = useAppSelector((state) => state.data);

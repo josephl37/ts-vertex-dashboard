@@ -1,8 +1,8 @@
-import { useAppSelector } from "../../redux/store";
+import { useAppSelector } from '../../redux/store';
 
-import ERChart from "./ERChart";
-import ERHeader from "./ERHeader";
-import Spinner from "../../components/spinner";
+import ERChart from './ERChart';
+import ERHeader from './ERHeader';
+import Spinner from '../../components/spinner';
 
 const ExpectedRewards = () => {
   const loading = useAppSelector((state) => state.data.loading);

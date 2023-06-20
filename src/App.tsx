@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from './redux/store';
 import { useAppSelector } from './redux/store';
 
-import Header from './components/header';
-import TopDB from './components/top-db';
-import BottomDB from './components/bottom-db';
+import Header from './layout/header';
+import TopDB from './layout/top-db';
+import BottomDB from './layout/bottom-db';
 import Signature from './components/signature';
 import Restricted from './components/restricted';
 

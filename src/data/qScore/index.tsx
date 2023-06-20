@@ -1,8 +1,8 @@
-import { useAppSelector } from "../../redux/store";
+import { useAppSelector } from '../../redux/store';
 
-import QSChart from "./QSChart";
-import QSHeader from "./QSHeader";
-import Spinner from "../../components/spinner";
+import QSChart from './QSChart';
+import QSHeader from './QSHeader';
+import Spinner from '../../components/spinner';
 
 const QScore = () => {
   const loading = useAppSelector((state) => state.data.loading);

@@ -1,8 +1,8 @@
-import { useAppSelector } from "../../redux/store";
+import { useAppSelector } from '../../redux/store';
 
-import RSChart from "./RSChart";
-import RSHeader from "./RSHeader";
-import Spinner from "../../components/spinner";
+import RSChart from './RSChart';
+import RSHeader from './RSHeader';
+import Spinner from '../../components/spinner';
 
 const RewardShare = () => {
   const loading = useAppSelector((state) => state.data.loading);

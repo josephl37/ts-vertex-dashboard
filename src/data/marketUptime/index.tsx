@@ -1,8 +1,8 @@
-import { useAppSelector } from "../../redux/store";
+import { useAppSelector } from '../../redux/store';
 
-import UPChart from "./UPChart";
-import UPHeader from "./UPHeader";
-import Spinner from "../../components/spinner";
+import UPChart from './UPChart';
+import UPHeader from './UPHeader';
+import Spinner from '../../components/spinner';
 
 const MarketUptime = () => {
   const loading = useAppSelector((state) => state.data.loading);

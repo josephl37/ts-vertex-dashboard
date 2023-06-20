@@ -1,8 +1,8 @@
-import { useAppSelector } from "../../redux/store";
+import { useAppSelector } from '../../redux/store';
 
-import MFChart from "./MFChart";
-import MFHeader from "./MFHeader";
-import Spinner from "../../components/spinner";
+import MFChart from './MFChart';
+import MFHeader from './MFHeader';
+import Spinner from '../../components/spinner';
 
 const MakerFee = () => {
   const loading = useAppSelector((state) => state.data.loading);

@@ -1,8 +1,8 @@
-import { useAppSelector } from "../../redux/store";
+import { useAppSelector } from '../../redux/store';
 
-import SUMQChart from "./SUMQChart";
-import SUMQHeader from "./SUMQHeader";
-import Spinner from "../../components/spinner";
+import SUMQChart from './SUMQChart';
+import SUMQHeader from './SUMQHeader';
+import Spinner from '../../components/spinner';
 
 const SumQScore = () => {
   const loading = useAppSelector((state) => state.data.loading);
