@@ -1,3 +1,6 @@
+import { MarketSelector } from '../components/MarketSelector';
+import { useQueryMarketData } from '../hooks/useQueryMarketData';
+
 type HeaderProps = {
   interval: number;
   setInterval: (interval: number) => void;
@@ -15,16 +18,13 @@ function Header({
   network,
   setNetwork,
 }: HeaderProps) {
+  const { data } = useQueryMarketData(network);
+
   const handleIntervalChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     const selectedInterval = parseInt(event.target.value);
     setInterval(selectedInterval);
-  };
-
-  const handleMarketChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedMarket = parseInt(event.target.value);
-    setMarket(selectedMarket);
   };
 
   const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -49,26 +49,12 @@ function Header({
         </p>
       </div>
       <div className="flex gap-4">
-        <div>
-          <label
-            htmlFor="market"
-            className="block mb-1 font-medium text-gray-1"
-          >
-            Market
-          </label>
-          <select
-            id="market"
-            className="bg-gray-3 border border-gray-2 text-gray-1 text-sm rounded block w-full p-2"
-            onChange={handleMarketChange}
-            value={market}
-          >
-            <option value="1">BTC-Spot</option>
-            <option value="2">BTC-Perp</option>
-            <option value="3">ETH-Spot</option>
-            <option value="4">ETH-Perp</option>
-            <option value="6">ARB-Perp</option>
-          </select>
-        </div>
+        <MarketSelector
+          data={data}
+          title="Market"
+          state={market}
+          setState={setMarket}
+        />
         <div>
           <label
             htmlFor="interval"
