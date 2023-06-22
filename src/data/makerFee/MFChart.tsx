@@ -1,27 +1,28 @@
-import ReactECharts from "echarts-for-react";
-import numeral from "numeral";
+import ReactECharts from 'echarts-for-react';
+import numeral from 'numeral';
 
-import { useAppSelector } from "../../redux/store";
-import { convertData } from "../../utils";
+import { useAppSelector } from '../../redux/store';
+import { convertData } from '../../utils';
+import { ErrorPrompt } from '../../components/errorPrompt';
 
 function MFChart() {
   const response = useAppSelector((state) => state.data.data?.makers);
-  const data = response ? convertData(response, "maker_fee") : null;
+  const data = response ? convertData(response, 'maker_fee') : null;
 
-  if (data === null) {
-    return <div>Data is unavailable</div>;
+  if (data === null || data.length === 0) {
+    return <ErrorPrompt />;
   }
 
   const seriesData = Object.keys(data[0])
-    .filter((key) => key !== "timestamp")
+    .filter((key) => key !== 'timestamp')
     .map((key) => ({
       name: key,
-      type: "line",
-      stack: "Total",
+      type: 'line',
+      stack: 'Total',
       showSymbol: false,
       areaStyle: {},
       emphasis: {
-        focus: "series",
+        focus: 'series',
       },
       data: data.map((item) => item[key]),
     }));
@@ -30,21 +31,21 @@ function MFChart() {
 
   const option = {
     tooltip: {
-      trigger: "axis",
-      backgroundColor: "#2A2A2F",
+      trigger: 'axis',
+      backgroundColor: '#2A2A2F',
       borderWidth: 0,
       textStyle: {
-        color: "#A2A2A6",
+        color: '#A2A2A6',
       },
       formatter: (params: any) => {
         const date = new Date(params[0].data.value[0]);
-        const formattedDate = `${date.toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        })} ${date.toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
+        const formattedDate = `${date.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        })} ${date.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
         })}`;
         const lines = params.map(
           (param: any) =>
@@ -53,51 +54,51 @@ function MFChart() {
             };"></span>${
               param.seriesName
             }:  <span style="float:right;padding-left:14px;font-weight:bold;">${numeral(
-              param.value[1]
-            ).format("0.[00]%")}</span>`
+              param.value[1],
+            ).format('0.[00]%')}</span>`,
         );
         return `<div><span style="display:inline-block;color:white;font-weight:bold;margin-bottom:4px;">${formattedDate}</span><br>${lines.join(
-          "<br>"
+          '<br>',
         )}</div>`;
       },
     },
     legend: {
-      type: "scroll",
-      pageIconColor: "#A2A2A6",
-      pageIconInactiveColor: "#323237",
-      inactiveColor: "#A2A2A6",
+      type: 'scroll',
+      pageIconColor: '#A2A2A6',
+      pageIconInactiveColor: '#323237',
+      inactiveColor: '#A2A2A6',
       pageTextStyle: {
-        color: "#A2A2A6",
+        color: '#A2A2A6',
       },
-      data: Object.keys(data[0]).filter((key) => key !== "timestamp"),
-      icon: "circle",
-      bottom: "2%",
+      data: Object.keys(data[0]).filter((key) => key !== 'timestamp'),
+      icon: 'circle',
+      bottom: '2%',
       textStyle: {
-        color: "#A2A2A6",
+        color: '#A2A2A6',
       },
     },
     grid: {
-      left: "2%",
-      right: "2%",
-      bottom: "12%",
-      top: "6%",
+      left: '2%',
+      right: '2%',
+      bottom: '12%',
+      top: '6%',
       containLabel: true,
     },
     xAxis: {
-      type: "time",
+      type: 'time',
       data: null,
     },
     yAxis: {
-      type: "value",
+      type: 'value',
       max: 1,
       splitLine: {
         lineStyle: {
-          color: "#323237",
+          color: '#323237',
         },
       },
       axisLabel: {
         formatter: (value: number) => {
-          return numeral(value).format("0%").toUpperCase();
+          return numeral(value).format('0%').toUpperCase();
         },
       },
     },
@@ -113,7 +114,7 @@ function MFChart() {
     <div className="h-96">
       <ReactECharts
         option={option}
-        style={{ height: "100%" }}
+        style={{ height: '100%' }}
         className="px-2"
       />
     </div>
