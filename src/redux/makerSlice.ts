@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getCurrentEpoch } from '../utils';
 
 interface MakerState {
   data: {
@@ -37,14 +36,15 @@ export const fetchData = createAsyncThunk(
     market,
     interval,
     network,
+    epoch,
   }: {
     market: number;
     interval: number;
     network: string;
+    epoch: number;
   }) => {
     const base = network === 'main' ? main : test;
 
-    const epoch = getCurrentEpoch();
     const response = await axios.post(
       `${base}/indexer`,
       {

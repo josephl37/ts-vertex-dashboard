@@ -1,5 +1,6 @@
 import { MarketSelector } from '../components/MarketSelector';
 import { useQueryMarketData } from '../hooks/useQueryMarketData';
+import { getCurrentEpoch } from '../utils';
 
 type HeaderProps = {
   interval: number;
@@ -8,6 +9,8 @@ type HeaderProps = {
   setMarket: (market: number) => void;
   network: string;
   setNetwork: any;
+  epoch: number;
+  setEpoch: (market: number) => void;
 };
 
 function Header({
@@ -17,8 +20,16 @@ function Header({
   setMarket,
   network,
   setNetwork,
+  epoch,
+  setEpoch,
 }: HeaderProps) {
   const { data } = useQueryMarketData(network);
+  const currentEpoch = getCurrentEpoch();
+  let epochArray = [];
+
+  for (let i = 1; i <= currentEpoch; i++) {
+    epochArray.push(i);
+  }
 
   const handleIntervalChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -29,6 +40,11 @@ function Header({
 
   const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setNetwork(event.target.value);
+  };
+
+  const handleEpochChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedEpoch = parseInt(event.target.value);
+    setEpoch(selectedEpoch);
   };
 
   return (
@@ -93,6 +109,23 @@ function Header({
           >
             <option value="main">Mainnet</option>
             <option value="test">Testnet</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="epoch" className="block mb-1 font-medium text-gray-1">
+            Epoch
+          </label>
+          <select
+            id="epoch"
+            className="bg-gray-3 border border-gray-2 text-gray-1 text-sm rounded block w-full p-2"
+            onChange={handleEpochChange}
+            value={epoch}
+          >
+            {epochArray.map((epochValue) => (
+              <option key={epochValue} value={epochValue}>
+                {epochValue}
+              </option>
+            ))}
           </select>
         </div>
       </div>

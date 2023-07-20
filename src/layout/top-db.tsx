@@ -1,21 +1,25 @@
-import { Tooltip } from "react-tooltip";
-import CurrentEpoch from "../data/currentEpoch/currentEpoch";
-import RewardCoefficient from "../data/rewardCoefficient/rewardCoefficient";
-import TotalMMs from "../data/totalMMs/totalMMs";
+import { Tooltip } from 'react-tooltip';
+import CurrentEpoch from '../data/currentEpoch/currentEpoch';
+import RewardCoefficient from '../data/rewardCoefficient/rewardCoefficient';
+import TotalMMs from '../data/totalMMs/totalMMs';
 
-function TopDB() {
+interface TopDBProps {
+  epoch: number;
+}
+
+function TopDB({ epoch }: TopDBProps) {
   return (
     <div className="grid md:grid-cols-3 gap-4 grid-cols-1 mt-8">
-      <CurrentEpoch />
+      <CurrentEpoch epoch={epoch} />
       <RewardCoefficient />
       <TotalMMs />
       <Tooltip
         id="my-tooltip"
         style={{
-          backgroundColor: "rgb(42, 42, 47)",
-          color: "#A2A2A6",
+          backgroundColor: 'rgb(42, 42, 47)',
+          color: '#A2A2A6',
           opacity: 1,
-          boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.5)",
+          boxShadow: '0px 2px 6px rgba(0, 0, 0, 0.5)',
         }}
         place="bottom"
       />

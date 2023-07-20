@@ -1,7 +1,10 @@
-import { getCurrentEpoch } from "../../utils";
-import infoSvg from "../../public/information-circle.svg";
+import infoSvg from '../../public/information-circle.svg';
 
-function CurrentEpoch() {
+interface CurrentEpochProps {
+  epoch: number;
+}
+
+function CurrentEpoch({ epoch }: CurrentEpochProps) {
   return (
     <div className="bg-gray-3 border border-gray-2 rounded">
       <div className="flex justify-between mx-2 mt-2">
@@ -14,7 +17,7 @@ function CurrentEpoch() {
         />
       </div>
       <div className="flex justify-center mt-4 mb-6">
-        <p className="text-white text-6xl font-medium">{getCurrentEpoch()}</p>
+        <p className="text-white text-6xl font-medium">{epoch}</p>
       </div>
     </div>
   );
