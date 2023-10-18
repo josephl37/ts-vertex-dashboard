@@ -91,7 +91,7 @@ function Header({
             <option value="172800">Past 2 Days</option>
             <option value="604800">Past 1 Week</option>
             <option value="1209600">Past 2 Weeks</option>
-            <option value="2630000">Past 1 Month</option>
+            <option value="2592000">Past 1 Month</option>
           </select>
         </div>
         <div>
