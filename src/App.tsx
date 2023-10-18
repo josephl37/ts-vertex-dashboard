@@ -13,7 +13,7 @@ import Restricted from './components/restricted';
 
 function App() {
   const currentEpoch = getCurrentEpoch();
-  const [market, setMarket] = useState(1);
+  const [market, setMarket] = useState(4);
   const [interval, setInterval] = useState(3600);
   const [network, setNetwork] = useState('main');
   const [epoch, setEpoch] = useState(currentEpoch);
