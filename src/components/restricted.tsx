@@ -13,27 +13,20 @@ const Restricted = () => {
         </div>
         <div className="text-gray-1 text-xs mx-4 my-4 border border-gray-2">
           <div className="p-2">
-            <p>Balkans</p>
             <p>Belarus</p>
-            <p>Burma (Myanmar)</p>
-            <p>Côte D’Ivoire (Ivory Coast)</p>
             <p>Cuba</p>
-            <p>Democratic Republic of Congo</p>
             <p>Iran</p>
-            <p>Iraq</p>
-            <p>Liberia</p>
             <p>North Korea</p>
             <p>Russia</p>
-            <p>Sudan</p>
             <p>Syria</p>
-            <p>Ukraine (Crimea, Donetsk and Luhansk regions)</p>
+            <p>Ukraine</p>
+            <p>United Kingdom</p>
             <p>United States of America</p>
-            <p>Zimbabwe</p>
           </div>
         </div>
         <div className="px-4 my-4">
           <p className="text-gray-1 text-xs">
-            Please refer to the{" "}
+            Please refer to the{' '}
             <a
               href="https://vertexprotocol.com/docs/TermsOfService.pdf"
               target="_blank"
@@ -41,7 +34,7 @@ const Restricted = () => {
               className="underline"
             >
               Vertex Terms of Service
-            </a>{" "}
+            </a>{' '}
             for more information.
           </p>
         </div>
